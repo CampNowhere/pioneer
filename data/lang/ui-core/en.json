@@ -479,6 +479,10 @@
       "description": "Tooltip: The speed relative to the target.",
       "message": "The speed relative to the target"
    },
+   "HUD_ORBITAL_ECCENTRICITY" : {
+      "description": "Tooltip: The orbital eccentricity relative to the current frame.",
+      "message": "Orbital eccentricity relative to local frame"
+   },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description": "Tooltip: The braking distance using the main thrusters.",
       "message": "The braking distance using the main thrusters"
