@@ -275,7 +275,10 @@ ui.Format = {
   Datetime = function(date)
 		local second, minute, hour, day, month, year = Game.GetPartsFromDateTime(date)
 		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
-  end
+  end,
+	Ecc = function(ecc)
+		return string.format("%0.4f", ecc), 'Ecc'
+	end
 }
 
 ui.pointOnClock = function(center, radius, hours)

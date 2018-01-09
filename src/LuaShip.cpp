@@ -1012,6 +1012,24 @@ static int l_ship_get_position(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_orbital_data(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	Frame *f = s->GetFrame()->GetNonRotFrame();
+	Orbit o = Orbit::FromBodyState(s->GetPositionRelTo(f), s->GetVelocityRelTo(f), f->GetSystemBody()->GetMass());
+	double body_radius = f->GetSystemBody()->GetRadius();
+	vector3d apoapsis = o.Apogeum();
+	vector3d periapsis = o.Perigeum();
+	double apoapsis_radius = (apoapsis - vector3d(0,0,0)).Length();
+	double periapsis_radius = (periapsis - vector3d(0,0,0)).Length();
+	lua_newtable(l);
+	pi_lua_settable(l, "ecc", o.GetEccentricity());
+	pi_lua_settable(l, "ApR", apoapsis_radius);
+	pi_lua_settable(l, "PeR", periapsis_radius);
+	pi_lua_settable(l, "ApA", apoapsis_radius - body_radius);
+	pi_lua_settable(l, "PeA", periapsis_radius - body_radius);
+	return 1;
+}
 
 /* Method: GetHullTemperature
  *
@@ -1579,6 +1597,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetFlightControlState",  l_ship_get_flight_control_state },
 		{ "GetCurrentAICommand",    l_ship_get_current_ai_command },
+		{ "GetOrbitalData",    l_ship_get_orbital_data },
 
 		{ 0, 0 }
 	};
