@@ -1022,12 +1022,14 @@ static int l_ship_get_orbital_data(lua_State *l)
 	vector3d periapsis = o.Perigeum();
 	double apoapsis_radius = (apoapsis - vector3d(0,0,0)).Length();
 	double periapsis_radius = (periapsis - vector3d(0,0,0)).Length();
+	double orbit_period = o.Period();
 	lua_newtable(l);
 	pi_lua_settable(l, "ecc", o.GetEccentricity());
 	pi_lua_settable(l, "ApR", apoapsis_radius);
 	pi_lua_settable(l, "PeR", periapsis_radius);
 	pi_lua_settable(l, "ApA", apoapsis_radius - body_radius);
 	pi_lua_settable(l, "PeA", periapsis_radius - body_radius);
+	pi_lua_settable(l, "Per", orbit_period);
 	return 1;
 }
 

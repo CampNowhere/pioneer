@@ -54,6 +54,29 @@ local function displayPlanetaryInfo()
 	end
 end
 
+local function displayOrbitalData()
+	local player = Game.player
+	local orbital_data = player:GetOrbitalData();
+	ui.setNextWindowSize(Vector(width, height), "Always")
+	ui.setNextWindowPos(Vector(ui.screenWidth - width, ui.screenHeight - height - height), "Always")
+	ui.window("Orbital Info", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+		function()
+			ui.withFont(font.name, font.size, function()
+				ui.columns(2, "", false)
+				local ecc, ecc_unit = ui.Format.Ecc(orbital_data.ecc)
+				local apa, apa_unit = ui.Format.Distance(orbital_data.ApA)
+				local pea, pea_unit = ui.Format.Distance(orbital_data.PeA)
+				local per = ui.Format.Duration(orbital_data.Per)
+				ui.text('ApA ' .. apa .. apa_unit)
+				ui.text('PeA ' .. pea .. pea_unit)
+				ui.nextColumn()
+				ui.text('Ecc ' .. ecc )
+				ui.text('Per ' .. per)
+				-- ui.sameLine()
+			end)
+		end)
+end
 ui.registerModule("game", displayPlanetaryInfo)
+ui.registerModule("game", displayOrbitalData)
 
 return {}
